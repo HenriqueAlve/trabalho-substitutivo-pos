@@ -56,11 +56,11 @@ public class LivroRepositoryImpl implements LivroRepository {
                 p.getNumber(), p.getSize(), p.getTotalElements(), p.getTotalPages());
     }
 
-    private LivroJpaEntity paraEntity(Livro l) {
-        return new LivroJpaEntity(l.getId(), l.getTitulo(), l.getAutor(), l.getIsbn(), l.isDisponivel());
+    private LivroJpaEntity paraEntity(Livro livro) {
+        return new LivroJpaEntity(livro.getId(), livro.getTitulo(), livro.getAutor(), livro.getIsbn(), livro.isDisponivel());
     }
 
-    private Livro paraDominio(LivroJpaEntity e) {
-        return new Livro(e.getId(), e.getTitulo(), e.getAutor(), e.getIsbn(), e.isDisponivel());
+    private Livro paraDominio(LivroJpaEntity livro) {
+        return new Livro(livro.getId(), livro.getTitulo(), livro.getAutor(), livro.getIsbn(), livro.isDisponivel());
     }
 }

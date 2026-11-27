@@ -1,5 +1,7 @@
 package br.com.biblioteca.application.usecase;
 
+import br.com.biblioteca.domain.enums.Perfil;
+
 import br.com.biblioteca.application.dto.EmprestimoAtivoResponse;
 import br.com.biblioteca.domain.entity.Emprestimo;
 import br.com.biblioteca.domain.entity.Livro;
@@ -28,7 +30,7 @@ class RelatoriosUseCasesTest {
     @Mock EmprestimoRepository repository;
 
     private final Clock clock = Clock.fixed(Instant.parse("2026-11-25T10:00:00Z"), ZoneOffset.UTC);
-    private final Usuario usuario = new Usuario(2L, "Maria Silva", "maria@email.com");
+    private final Usuario usuario = new Usuario(2L, "Maria Silva", "maria@email.com", "hash", Perfil.USUARIO);
 
     private Emprestimo emAberto(Long id, LocalDate emprestado, LocalDate previsto) {
         Livro livro = new Livro(id, "Livro " + id, "Autor", "978000000000" + id, false);

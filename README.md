@@ -6,7 +6,7 @@ Projeto do Tech Challenge — Fase 2 (Arquitetura e Desenvolvimento Java), desen
 
 ## Tecnologias
 
-- Java 17 e Spring Boot 3.3 (Web, Data JPA, Validation, Actuator)
+- Java 17 e Spring Boot 3.3 (Web, Data JPA, Validation, Actuator, Security)
 - PostgreSQL 16 com migrations Flyway
 - Swagger / OpenAPI (springdoc)
 - Docker e Docker Compose
@@ -82,6 +82,32 @@ A documentação completa, com exemplos e códigos de resposta, está no Swagger
 | | `PUT /reservas/{id}/cancelamento` | Cancelar reserva |
 | Relatórios | `GET /relatorios/livros-mais-emprestados` | Os 20 livros mais emprestados |
 | | `GET /relatorios/emprestimos-ativos` | Livros emprestados agora e previsão de devolução |
+
+## Segurança e perfis
+
+A API usa **Spring Security com HTTP Basic**: o login é o **e-mail** do usuário e a senha é a cadastrada (guardada com BCrypt). No Swagger UI, use o botão **Authorize**. Sem credenciais a resposta é `401`; sem permissão para o recurso, `403`.
+
+O banco sobe com dois usuários de exemplo, ambos com a senha `Biblioteca@123`:
+
+| Perfil | E-mail |
+|---|---|
+| `BIBLIOTECARIO` | `bibliotecario@biblioteca.com` |
+| `USUARIO` | `aluno@biblioteca.com` |
+
+Troque essas credenciais fora do ambiente de desenvolvimento.
+
+| Ação | BIBLIOTECARIO | USUARIO |
+|---|---|---|
+| Consultar livros (`GET /livros`, `GET /livros/{id}`) | sim | sim |
+| Cadastrar, atualizar e excluir livros | sim | não |
+| Cadastrar, atualizar e excluir usuários | sim | não |
+| Ver cadastro, histórico de empréstimos e reservas de um usuário | de qualquer um | só os próprios |
+| Emprestar e reservar (`POST /emprestimos`, `POST /reservas`) | para qualquer usuário | só para si |
+| Devolver e cancelar reservas | sim | não |
+| Relatórios | sim | não |
+| Documentação (Swagger, `/v3/api-docs`) e `/actuator/health` | público | público |
+
+O cadastro de usuário (`POST /usuarios`) recebe `senha` e, opcionalmente, `perfil` (padrão `USUARIO`). A senha nunca é devolvida pela API.
 
 ## Regras de negócio
 

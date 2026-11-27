@@ -1,6 +1,5 @@
 package br.com.biblioteca.infrastructure.persistence.repository;
 
-
 import br.com.biblioteca.domain.entity.Usuario;
 import br.com.biblioteca.domain.repository.UsuarioRepository;
 import br.com.biblioteca.infrastructure.persistence.entity.UsuarioJpaEntity;
@@ -26,15 +25,20 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
     }
 
     @Override
+    public Optional<Usuario> buscarPorEmail(String email) {
+        return jpa.findByEmail(email).map(this::paraDominio);
+    }
+
+    @Override
     public void excluir(Long id) {
         jpa.deleteById(id);
     }
 
-    private UsuarioJpaEntity paraEntity(Usuario u) {
-        return new UsuarioJpaEntity(u.getId(), u.getNome(), u.getEmail());
+    private UsuarioJpaEntity paraEntity(Usuario usuario) {
+        return new UsuarioJpaEntity(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getSenha(), usuario.getPerfil());
     }
 
-    private Usuario paraDominio(UsuarioJpaEntity u) {
-        return new Usuario(u.getId(), u.getNome(), u.getEmail());
+    private Usuario paraDominio(UsuarioJpaEntity usuario) {
+        return new Usuario(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getSenha(), usuario.getPerfil());
     }
 }

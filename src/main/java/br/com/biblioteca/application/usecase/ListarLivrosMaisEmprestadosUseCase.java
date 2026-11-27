@@ -7,10 +7,11 @@ import java.util.List;
 
 public class ListarLivrosMaisEmprestadosUseCase {
 
-    private final EmprestimoRepository repo;
-    public ListarLivrosMaisEmprestadosUseCase(EmprestimoRepository repo) { this.repo = repo; }
+    private final EmprestimoRepository emprestimoRepository;
+    public ListarLivrosMaisEmprestadosUseCase(EmprestimoRepository emprestimoRepository) {
+        this.emprestimoRepository = emprestimoRepository; }
 
     public List<LivroMaisEmprestado> executar() {
-        return repo.maisEmprestados(20);
+        return emprestimoRepository.maisEmprestados(20);
     }
 }

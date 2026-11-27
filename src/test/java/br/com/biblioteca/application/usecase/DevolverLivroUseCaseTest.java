@@ -1,5 +1,7 @@
 package br.com.biblioteca.application.usecase;
 
+import br.com.biblioteca.domain.enums.Perfil;
+
 import br.com.biblioteca.application.dto.EmprestimoResponse;
 import br.com.biblioteca.domain.entity.Emprestimo;
 import br.com.biblioteca.domain.entity.Livro;
@@ -37,7 +39,7 @@ class DevolverLivroUseCaseTest {
     private final Clock clock = Clock.fixed(Instant.parse("2026-12-01T10:00:00Z"), ZoneOffset.UTC);
     private DevolverLivroUseCase useCase;
 
-    private final Usuario usuario = new Usuario(2L, "Maria Silva", "maria@email.com");
+    private final Usuario usuario = new Usuario(2L, "Maria Silva", "maria@email.com", "hash", Perfil.USUARIO);
 
     @BeforeEach
     void setUp() {

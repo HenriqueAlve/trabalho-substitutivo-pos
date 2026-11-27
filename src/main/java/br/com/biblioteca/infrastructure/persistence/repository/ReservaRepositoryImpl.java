@@ -45,23 +45,23 @@ public class ReservaRepositoryImpl implements ReservaRepository {
         return jpa.existsByLivroIdAndUsuarioIdAndStatus(livroId, usuarioId, StatusReserva.ATIVA);
     }
 
-    private ReservaJpaEntity paraEntity(Reserva r) {
-        Livro l = r.getLivro();
-        Usuario u = r.getUsuario();
+    private ReservaJpaEntity paraEntity(Reserva reserva) {
+        Livro livro = reserva.getLivro();
+        Usuario usuario = reserva.getUsuario();
         return new ReservaJpaEntity(
-                r.getId(),
-                new LivroJpaEntity(l.getId(), l.getTitulo(), l.getAutor(), l.getIsbn(), l.isDisponivel()),
-                new UsuarioJpaEntity(u.getId(), u.getNome(), u.getEmail()),
-                r.getDataReserva(), r.getStatus());
+                reserva.getId(),
+                new LivroJpaEntity(livro.getId(), livro.getTitulo(), livro.getAutor(), livro.getIsbn(), livro.isDisponivel()),
+                new UsuarioJpaEntity(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getSenha(), usuario.getPerfil()),
+                reserva.getDataReserva(), reserva.getStatus());
     }
 
-    private Reserva paraDominio(ReservaJpaEntity e) {
-        LivroJpaEntity l = e.getLivro();
-        UsuarioJpaEntity u = e.getUsuario();
+    private Reserva paraDominio(ReservaJpaEntity reserva) {
+        LivroJpaEntity livro = reserva.getLivro();
+        UsuarioJpaEntity usuario = reserva.getUsuario();
         return new Reserva(
-                e.getId(),
-                new Livro(l.getId(), l.getTitulo(), l.getAutor(), l.getIsbn(), l.isDisponivel()),
-                new Usuario(u.getId(), u.getNome(), u.getEmail()),
-                e.getDataReserva(), e.getStatus());
+                reserva.getId(),
+                new Livro(livro.getId(), livro.getTitulo(), livro.getAutor(), livro.getIsbn(), livro.isDisponivel()),
+                new Usuario(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getSenha(), usuario.getPerfil()),
+                reserva.getDataReserva(), reserva.getStatus());
     }
 }

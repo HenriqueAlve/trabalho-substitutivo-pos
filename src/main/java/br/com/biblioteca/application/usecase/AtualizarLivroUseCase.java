@@ -8,14 +8,14 @@ import br.com.biblioteca.domain.repository.LivroRepository;
 
 public class AtualizarLivroUseCase {
 
-    private final LivroRepository repo;
-    public AtualizarLivroUseCase(LivroRepository repo) { this.repo = repo; }
+    private final LivroRepository livroRepository;
+    public AtualizarLivroUseCase(LivroRepository livroRepository) { this.livroRepository = livroRepository; }
 
     public LivroResponse executar(Long id, CadastrarLivroRequest req) {
-        Livro livro = repo.buscarPorId(id)
+        Livro livro = livroRepository.buscarPorId(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Livro não encontrado: " + id));
         livro.atualizar(req.titulo(), req.autor(), req.isbn());
-        Livro salvo = repo.salvar(livro);
+        Livro salvo = livroRepository.salvar(livro);
         return new LivroResponse(salvo.getId(), salvo.getTitulo(), salvo.getAutor(), salvo.getIsbn(), salvo.isDisponivel());
     }
 }

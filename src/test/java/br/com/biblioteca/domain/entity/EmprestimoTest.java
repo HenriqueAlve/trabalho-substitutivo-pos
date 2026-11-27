@@ -1,5 +1,7 @@
 package br.com.biblioteca.domain.entity;
 
+import br.com.biblioteca.domain.enums.Perfil;
+
 import br.com.biblioteca.domain.exception.EmprestimoJaDevolvidoException;
 import br.com.biblioteca.domain.exception.LivroIndisponivelException;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class EmprestimoTest {
 
-    private final Usuario usuario = new Usuario(1L, "Maria Silva", "maria@email.com");
+    private final Usuario usuario = new Usuario(1L, "Maria Silva", "maria@email.com", "hash", Perfil.USUARIO);
 
     private Livro livro(boolean disponivel) {
         return new Livro(1L, "Clean Code", "Robert C. Martin", "9780132350884", disponivel);

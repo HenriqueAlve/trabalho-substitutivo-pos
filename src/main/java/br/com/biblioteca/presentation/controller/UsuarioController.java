@@ -1,5 +1,6 @@
 package br.com.biblioteca.presentation.controller;
 
+import br.com.biblioteca.application.dto.AtualizarUsuarioRequest;
 import br.com.biblioteca.application.dto.CadastrarUsuarioRequest;
 import br.com.biblioteca.application.dto.EmprestimoResponse;
 import br.com.biblioteca.application.dto.ReservaResponse;
@@ -14,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -50,6 +52,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     })
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('BIBLIOTECARIO') or #id == principal.id")
     public UsuarioResponse buscar(@Parameter(description = "Id do usuário", example = "1") @PathVariable Long id) {
         return buscar.executar(id);
     }
@@ -63,7 +66,7 @@ public class UsuarioController {
     })
     @PutMapping("/{id}")
     public UsuarioResponse atualizar(@Parameter(description = "Id do usuário", example = "1") @PathVariable Long id,
-                                     @RequestBody @Valid CadastrarUsuarioRequest req) {
+                                     @RequestBody @Valid AtualizarUsuarioRequest req) {
         return atualizar.executar(id, req);
     }
 
@@ -87,6 +90,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     })
     @GetMapping("/{id}/emprestimos")
+    @PreAuthorize("hasRole('BIBLIOTECARIO') or #id == principal.id")
     public List<EmprestimoResponse> historico(@Parameter(description = "Id do usuário", example = "1") @PathVariable Long id) {
         return listarEmprestimos.executar(id);
     }
@@ -98,6 +102,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     })
     @GetMapping("/{id}/reservas")
+    @PreAuthorize("hasRole('BIBLIOTECARIO') or #id == principal.id")
     public List<ReservaResponse> reservas(@Parameter(description = "Id do usuário", example = "1") @PathVariable Long id) {
         return listarReservas.executar(id);
     }
