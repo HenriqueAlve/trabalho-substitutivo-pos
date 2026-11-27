@@ -57,22 +57,22 @@ public class EmprestimoRepositoryImpl implements EmprestimoRepository {
         return jpa.findAtivos().stream().map(this::paraDominio).toList();
     }
 
-    private EmprestimoJpaEntity paraEntity(Emprestimo e) {
+    private EmprestimoJpaEntity paraEntity(Emprestimo emprestimo) {
         return new EmprestimoJpaEntity(
-                e.getId(),
-                new LivroJpaEntity(e.getLivro().getId(), e.getLivro().getTitulo(), e.getLivro().getAutor(),
-                        e.getLivro().getIsbn(), e.getLivro().isDisponivel()),
-                new UsuarioJpaEntity(e.getUsuario().getId(), e.getUsuario().getNome(), e.getUsuario().getEmail()),
-                e.getDataEmprestimo(), e.getDataPrevistaDevolucao(), e.getDataDevolucao());
+                emprestimo.getId(),
+                new LivroJpaEntity(emprestimo.getLivro().getId(), emprestimo.getLivro().getTitulo(), emprestimo.getLivro().getAutor(),
+                        emprestimo.getLivro().getIsbn(), emprestimo.getLivro().isDisponivel()),
+                new UsuarioJpaEntity(emprestimo.getUsuario().getId(), emprestimo.getUsuario().getNome(), emprestimo.getUsuario().getEmail(), emprestimo.getUsuario().getSenha(), emprestimo.getUsuario().getPerfil()),
+                emprestimo.getDataEmprestimo(), emprestimo.getDataPrevistaDevolucao(), emprestimo.getDataDevolucao());
     }
 
-    private Emprestimo paraDominio(EmprestimoJpaEntity e) {
-        LivroJpaEntity l = e.getLivro();
-        UsuarioJpaEntity u = e.getUsuario();
+    private Emprestimo paraDominio(EmprestimoJpaEntity emprestimo) {
+        LivroJpaEntity livro = emprestimo.getLivro();
+        UsuarioJpaEntity usuario = emprestimo.getUsuario();
         return new Emprestimo(
-                e.getId(),
-                new Livro(l.getId(), l.getTitulo(), l.getAutor(), l.getIsbn(), l.isDisponivel()),
-                new Usuario(u.getId(), u.getNome(), u.getEmail()),
-                e.getDataEmprestimo(), e.getDataPrevistaDevolucao(), e.getDataDevolucao());
+                emprestimo.getId(),
+                new Livro(livro.getId(), livro.getTitulo(), livro.getAutor(), livro.getIsbn(), livro.isDisponivel()),
+                new Usuario(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getSenha(), usuario.getPerfil()),
+                emprestimo.getDataEmprestimo(), emprestimo.getDataPrevistaDevolucao(), emprestimo.getDataDevolucao());
     }
 }

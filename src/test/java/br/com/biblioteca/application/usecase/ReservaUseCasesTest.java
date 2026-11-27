@@ -1,5 +1,7 @@
 package br.com.biblioteca.application.usecase;
 
+import br.com.biblioteca.domain.enums.Perfil;
+
 import br.com.biblioteca.application.dto.ReservaResponse;
 import br.com.biblioteca.application.dto.ReservarLivroRequest;
 import br.com.biblioteca.domain.entity.Livro;
@@ -38,7 +40,7 @@ class ReservaUseCasesTest {
     @Mock UsuarioRepository usuarioRepository;
 
     private final Clock clock = Clock.fixed(Instant.parse("2026-11-25T10:00:00Z"), ZoneOffset.UTC);
-    private final Usuario usuario = new Usuario(2L, "João Souza", "joao@email.com");
+    private final Usuario usuario = new Usuario(2L, "João Souza", "joao@email.com", "hash", Perfil.USUARIO);
     private final ReservarLivroRequest request = new ReservarLivroRequest(1L, 2L);
 
     private Livro livro(boolean disponivel) {

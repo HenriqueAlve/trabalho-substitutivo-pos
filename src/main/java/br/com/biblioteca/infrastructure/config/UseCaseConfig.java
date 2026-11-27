@@ -5,6 +5,7 @@ import br.com.biblioteca.domain.repository.EmprestimoRepository;
 import br.com.biblioteca.domain.repository.LivroRepository;
 import br.com.biblioteca.domain.repository.ReservaRepository;
 import br.com.biblioteca.domain.repository.UsuarioRepository;
+import br.com.biblioteca.application.port.CodificadorDeSenha;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,8 +35,8 @@ public class UseCaseConfig {
     }
 
     @Bean
-    CadastrarUsuarioUseCase cadastrarUsuario(UsuarioRepository repository){
-        return new CadastrarUsuarioUseCase(repository);
+    CadastrarUsuarioUseCase cadastrarUsuario(UsuarioRepository repository, CodificadorDeSenha codificadorDeSenha){
+        return new CadastrarUsuarioUseCase(repository, codificadorDeSenha);
     }
 
     @Bean
@@ -58,8 +59,9 @@ public class UseCaseConfig {
     }
 
     @Bean
-    EmprestarLivroUseCase emprestarLivro(EmprestimoRepository e, UsuarioRepository u, LivroRepository l, Clock c) {
-        return new EmprestarLivroUseCase(e, u, l, c);
+    EmprestarLivroUseCase emprestarLivro(EmprestimoRepository emprestimoRepository, UsuarioRepository usuarioRepository,
+                                         LivroRepository livroRepository, Clock clock) {
+        return new EmprestarLivroUseCase(emprestimoRepository, usuarioRepository, livroRepository, clock);
     }
 
     @Bean
@@ -68,8 +70,8 @@ public class UseCaseConfig {
     }
 
     @Bean
-    ListarEmprestimosDoUsuarioUseCase listarEmprestimosDoUsuario(EmprestimoRepository e, UsuarioRepository u) {
-        return new ListarEmprestimosDoUsuarioUseCase(e, u);
+    ListarEmprestimosDoUsuarioUseCase listarEmprestimosDoUsuario(EmprestimoRepository emprestimoRepository, UsuarioRepository usuarioRepository) {
+        return new ListarEmprestimosDoUsuarioUseCase(emprestimoRepository, usuarioRepository);
     }
 
     @Bean
@@ -78,18 +80,19 @@ public class UseCaseConfig {
     }
 
     @Bean
-    ReservarLivroUseCase reservarLivro(ReservaRepository r, LivroRepository l, UsuarioRepository u, Clock c) {
-        return new ReservarLivroUseCase(r, l, u, c);
+    ReservarLivroUseCase reservarLivro(ReservaRepository reservaRepository, LivroRepository livroRepository,
+                                       UsuarioRepository usuarioRepository, Clock clock) {
+        return new ReservarLivroUseCase(reservaRepository, livroRepository, usuarioRepository, clock);
     }
 
     @Bean
-    CancelarReservaUseCase cancelarReserva(ReservaRepository r) {
-        return new CancelarReservaUseCase(r);
+    CancelarReservaUseCase cancelarReserva(ReservaRepository reservaRepository) {
+        return new CancelarReservaUseCase(reservaRepository);
     }
 
     @Bean
-    ListarReservasDoUsuarioUseCase listarReservasDoUsuario(ReservaRepository r, UsuarioRepository u) {
-        return new ListarReservasDoUsuarioUseCase(r, u);
+    ListarReservasDoUsuarioUseCase listarReservasDoUsuario(ReservaRepository reservaRepository, UsuarioRepository usuarioRepository) {
+        return new ListarReservasDoUsuarioUseCase(reservaRepository, usuarioRepository);
     }
 
     @Bean

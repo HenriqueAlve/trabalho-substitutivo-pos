@@ -7,9 +7,12 @@ CREATE TABLE livro (
 );
 
 CREATE TABLE usuario (
-                         id     BIGSERIAL PRIMARY KEY,
-                         nome   VARCHAR(255) NOT NULL,
-                         email  VARCHAR(255) NOT NULL UNIQUE
+                         id      BIGSERIAL PRIMARY KEY,
+                         nome    VARCHAR(255) NOT NULL,
+                         email   VARCHAR(255) NOT NULL UNIQUE,
+                         senha   VARCHAR(100) NOT NULL,
+                         perfil  VARCHAR(20)  NOT NULL DEFAULT 'USUARIO',
+                         CONSTRAINT chk_usuario_perfil CHECK (perfil IN ('BIBLIOTECARIO', 'USUARIO'))
 );
 
 CREATE TABLE emprestimo (
@@ -54,6 +57,10 @@ INSERT INTO livro (titulo, autor, isbn, disponivel) VALUES
                                                         ('Rápido e Devagar',                'Daniel Kahneman',                  '9780374533557', TRUE),
                                                         ('Duna',                            'Frank Herbert',                    '9780441172719', TRUE)
     ON CONFLICT (isbn) DO NOTHING;
+
+INSERT INTO usuario (nome, email, senha, perfil) VALUES
+    ('Bibliotecário Exemplo', 'bibliotecario@biblioteca.com', '$2a$10$ntPawDd0dzpmua8Wv7qoG.CLluekB.DPcBa9JEvGbr2WFGMmPfV3W', 'BIBLIOTECARIO'),
+    ('Aluno Exemplo', 'aluno@biblioteca.com', '$2a$10$ntPawDd0dzpmua8Wv7qoG.CLluekB.DPcBa9JEvGbr2WFGMmPfV3W', 'USUARIO');
 
 CREATE INDEX idx_emprestimo_livro ON emprestimo (livro_id);
 CREATE INDEX idx_emprestimo_ativos ON emprestimo (data_prevista_devolucao) WHERE data_devolucao IS NULL;

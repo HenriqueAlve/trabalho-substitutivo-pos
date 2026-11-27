@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -38,6 +39,7 @@ public class EmprestimoController {
             @ApiResponse(responseCode = "409", description = "Livro indisponível (já emprestado)")
     })
     @PostMapping
+    @PreAuthorize("hasRole('BIBLIOTECARIO') or #req.usuarioId() == principal.id")
     @Transactional
     public ResponseEntity<EmprestimoResponse> emprestar(@RequestBody @Valid EmprestarLivroRequest req) {
         EmprestimoResponse r = emprestar.executar(req);

@@ -9,17 +9,17 @@ import java.util.List;
 
 public class ListarEmprestimosAtivosUseCase {
 
-    private final EmprestimoRepository repository;
+    private final EmprestimoRepository emprestimoRepository;
     private final Clock clock;
 
-    public ListarEmprestimosAtivosUseCase(EmprestimoRepository repository, Clock clock){
-        this.repository = repository;
+    public ListarEmprestimosAtivosUseCase(EmprestimoRepository emprestimoRepository, Clock clock){
+        this.emprestimoRepository = emprestimoRepository;
         this.clock = clock;
     }
 
     public List<EmprestimoAtivoResponse> executar() {
         LocalDate hoje = LocalDate.now(clock);
-        return repository.listarAtivos().stream()
+        return emprestimoRepository.listarAtivos().stream()
                 .map(e -> new EmprestimoAtivoResponse(
                         e.getId(), e.getLivro().getId(), e.getLivro().getTitulo(),
                         e.getUsuario().getId(), e.getUsuario().getNome(),

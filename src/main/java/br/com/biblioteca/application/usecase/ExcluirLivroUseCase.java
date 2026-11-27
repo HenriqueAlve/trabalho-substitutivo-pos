@@ -5,12 +5,13 @@ import br.com.biblioteca.domain.repository.LivroRepository;
 
 public class ExcluirLivroUseCase {
 
-    private final LivroRepository repository;
-    public ExcluirLivroUseCase(LivroRepository repository) { this.repository = repository; }
+    private final LivroRepository livroRepository;
+    public ExcluirLivroUseCase(LivroRepository livroRepository) {
+        this.livroRepository = livroRepository; }
 
     public void executar(Long id) {
-        repository.buscarPorId(id)
+        livroRepository.buscarPorId(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Livro não encontrado: " + id));
-        repository.excluir(id);
+        livroRepository.excluir(id);
     }
 }

@@ -1,5 +1,7 @@
 package br.com.biblioteca.domain.entity;
 
+import br.com.biblioteca.domain.enums.Perfil;
+
 import br.com.biblioteca.domain.enums.StatusReserva;
 import br.com.biblioteca.domain.exception.RegraDeNegocioException;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ReservaTest {
 
-    private final Usuario usuario = new Usuario(2L, "João Souza", "joao@email.com");
+    private final Usuario usuario = new Usuario(2L, "João Souza", "joao@email.com", "hash", Perfil.USUARIO);
     private final LocalDate hoje = LocalDate.of(2026, 11, 25);
 
     private Livro livro(boolean disponivel) {
